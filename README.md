@@ -21,6 +21,6 @@ Data is downloaded from the [Google nGram Download Page](http://storage.googleap
 
 ## Notes
 
-1) This data takes up **a lot** (all 5Grams with sorted data $$\approx$$ of space and will take a fair bit of time to run so plan accordingly.
-2) Currently the data is sorted by year - this can easily be changed in nGram_sort.py (see comment).
-3) The code is currently stored in .gz files to save space. This is totally optional and the file type can easily be changed in nGram_sort.py (see comments).
+1) This data takes up **a lot of space** (all 5Grams with sorted data = roughly 1 TB ) and will take a fair bit of time to run so plan accordingly.
+2) Currently the data is sorted by year - this can easily be changed in nGram_sort.py (see comment in code).
+3) The code is currently stored in .gz files to save space. This is totally optional and the file type can easily be changed in nGram_sort.py (see comments in code).

@@ -2,6 +2,7 @@ import os
 import gzip
 import glob
 import re
+import time
 
 from config import *
 
@@ -19,7 +20,6 @@ ngram1970 = os.path.join(DIR_SORTED, '1970_1979.gz')
 ngram1980 = os.path.join(DIR_SORTED, '1980_1989.gz')
 ngram1990 = os.path.join(DIR_SORTED, '1990_1989.gz')
 ngram2000 = os.path.join(DIR_SORTED, '2000_2009.gz')
-ngram2010 = os.path.join(DIR_SORTED, '2010_2019.gz')
 
 # Open timeline files
 # Filetype can easily be changes pt2 --> delete "gzip." and change "wt" to "w"
@@ -35,16 +35,20 @@ file1970 = gzip.open(ngram1970, "wt")
 file1980 = gzip.open(ngram1980, "wt")
 file1990 = gzip.open(ngram1990, "wt")
 file2000 = gzip.open(ngram2000, "wt")
-file2010 = gzip.open(ngram2010, "wt")
 
 ## Layout of file
 # ngram TAB year TAB match_count TAB volume_count NEWLINE
 file_list = glob.glob(DIR_DATA+"*.gz")
 file_num = len(file_list)
 file_count = 1
+total_gb = 0
+time_fullStart = time.time()
 for filename in file_list:
+    t0 = time.time()
     print("Working on File: "+str(file_count))
-    print("\tFile size = "+str(os.path.getsize(filename))+" bytes")
+    file_gb = os.path.getsize(filename)/1000000000
+    total_gb += file_gb
+    print("\tFile size = "+str(file_gb)+" GB")
     file_count += 1
     with gzip.open(filename, 'r') as f: # open in readonly mode
         for line in f:
@@ -52,9 +56,7 @@ for filename in file_list:
             line_split = re.split(r'(\t)', line) # line now --> [ngram, \t ,year, \t , match_count, \t, volume_counts\n]
             # Change the following code to sort based on your needs
             year = int(line_split[2])
-            if year >= 2010:
-                file2010.writelines(line_split)
-            elif year >= 2000:
+            if year >= 2000:
                 file2000.writelines(line_split)
             elif year >= 1990:
                 file1990.writelines(line_split)
@@ -78,5 +80,10 @@ for filename in file_list:
                 file1900.writelines(line_split)
             else:
                 filePre.writelines(line_split)
+    t1 = time.time()
+    print("\tComputation time: "+str(t1-t0))
     # Uncomment to delete file after parsing (storage considerations)            
     #os.remove(filename)
+time_fullEnd = time.time()
+print("\nFULL COMPUTATION TIME: "+str(time_fullEnd-time_fullStart))
+print("TOTAL AMOUNT OF DATA PARSED: "+str(total_gb))

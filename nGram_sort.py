@@ -41,10 +41,11 @@ file2000 = open(ngram2000, "a")
 file_list = glob.glob(DIR_DATA+"*.gz")
 with alive_bar(len(file_list)) as bar:
     for filename in file_list:
-        with open(filename, 'r') as f: # open in readonly mode
+        with gzip.open(filename, 'r') as f: # open in readonly mode
             for line in f:
-                line = line.decode("utf-8") # data returned as bytes --> convert to string
-                line_split = re.split(r'(\t)', line) # line now --> [ngram, \t ,year, \t , match_count, \t, volume_counts\n]
+                line = line.decode("utf-8")
+                line_split = re.split(r'(\t)',line)
+                # line now --> [ngram, \t ,year, \t , match_count, \t, volume_counts\n]
                 # Change the following code to sort based on your needs
                 year = int(line_split[2])
                 if year >= 2000:
@@ -54,7 +55,7 @@ with alive_bar(len(file_list)) as bar:
                 elif year >= 1980:
                     file1980.writelines(line_split[0].lower()+"\n")
                 elif year >= 1970:
-                    file1970.writelines(line_split[0].lower())+"\n"
+                    file1970.writelines(line_split[0].lower()+"\n")
                 elif year >= 1960:
                     file1960.writelines(line_split[0].lower()+"\n")
                 elif year >= 1950:

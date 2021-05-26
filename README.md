@@ -18,6 +18,7 @@ Data is downloaded from the [Google nGram Download Page](http://storage.googleap
 
 1) Run nGram_sort.py. This will extract and sort all the nGrams in /data by year. Currently, the datatset will sort into buckets spanning pre1900, then ever 10 years till 2019. 
 2) Data can be found in /sorted_nGrams
+   1) word2vec_prep.py is if you sort and write the *whole* line to sorted files (it will strip everything but the nGrams)
 
 ## Notes
 
